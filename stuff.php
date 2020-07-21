@@ -36,8 +36,6 @@ if(strstr($options['u'],',')){
     $username = $options['u'];
 }
 
-print_r($username);
-
 if(is_file($options['p'])){
     $passwords       = array_map('trim',file($options['p']));
     $passwords_count = count($passwords);
