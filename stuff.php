@@ -82,12 +82,12 @@ $option = trim($option);
 if(!is_numeric($option)) die("The answer must be 1 or 2!");
 
 if($option == 1){
-    $check_xmlrpc = @file_get_contents($host_http.'/xmlrpc.php');
-    if(!preg_match('/XML-RPC server accepts POST requests only./i',$check_xmlrpc)){
+    $check_xmlrpc = control($host_http.'/xmlrpc.php');
+    if(!strstr($check_xmlrpc,'XML-RPC server accepts POST requests only.')){
         die("\tSeems host doesn't have XML-RPC service installed :(".PHP_EOL);
     }
 }else{
-    $check_wplogin = @file_get_contents($host_http.'/wp-login.php');
+    $check_wplogin = control($host_http.'/wp-login.php');
     if(!strstr($check_wplogin,'type="text" name="log"') && !strstr($check_wplogin,'type="password" name="pwd"')){
         die("\tSeems host doesn't have wp-login.php :(".PHP_EOL);
     }
@@ -264,3 +264,12 @@ print PHP_EOL;
 print "\t[ - ] No valid username & password combinations".PHP_EOL;
 print "\t[INFO] Elapsed time: ".(time()-$start_time)." seconds".PHP_EOL;
 print "\t[INFO] Good bye :)) codes by miyachung".PHP_EOL;
+
+
+function control($link){
+    $curl = curl_init();
+    curl_setopt_array($curl,[CURLOPT_RETURNTRANSFER => 1,CURLOPT_URL => $link,CURLOPT_TIMEOUT => 10,CURLOPT_USERAGENT => 'Mozilla 5.0']);
+    $exec = curl_exec($curl);
+    curl_close($curl);
+    return $exec;
+}
