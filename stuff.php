@@ -201,7 +201,7 @@ foreach($chunk_posts as $post){
 
         while(($run = curl_multi_exec($multi,$active)) === CURLM_CALL_MULTI_PERFORM);
         if($run != CURLM_OK) break;
-        curl_multi_select($multi);
+        curl_multi_select($multi,15);
 
 
         while($read = curl_multi_info_read($multi)){
