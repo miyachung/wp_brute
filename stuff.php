@@ -15,7 +15,7 @@
     1) XML-RPC
     2) Wordpress Login (wp-login.php)
 
-    Usage : -h HOST -u USERNAME(S) [CAN BE FILE] -p PASSWORDS [MUST BE FILE] -t THREADS [OPTIONAL,DEFAULT IS 10]
+    Usage : -h HOST -u USERNAME(S) [CAN SEPARATED WITH ','] -p PASSWORDS [MUST BE FILE] -t THREADS [OPTIONAL,DEFAULT IS 10]
 
 */
 error_reporting(E_ALL ^ E_NOTICE);
@@ -23,17 +23,20 @@ error_reporting(E_ALL ^ E_NOTICE);
 $options = getopt('h:u:p:t:');
 
 if(!isset($options['h']) || !isset($options['u']) || !isset($options['p'])){
-    print "Usage -> {$_SERVER['PHP_SELF']} -h HOST -u USERNAME(S) [CAN BE FILE] -p PASSWORDS [MUST BE FILE] -t THREADS [OPTIONAL,DEFAULT IS 10]".PHP_EOL;
+    print "Usage -> {$_SERVER['PHP_SELF']} -h HOST -u USERNAME(S) [CAN SEPARATED WITH ','] -p PASSWORDS [MUST BE FILE] -t THREADS [OPTIONAL,DEFAULT IS 10]".PHP_EOL;
     exit;
 }
 
 
-if(is_file($options['u'])){
-    $username       = array_map('trim',file($options['u']));
+if(strstr($options['u'],',')){
+    $username       = explode(",",$options['u']);
+    $username       = array_filter($username);
     $username_count = count($username);
 }else{
     $username = $options['u'];
 }
+
+print_r($username);
 
 if(is_file($options['p'])){
     $passwords       = array_map('trim',file($options['p']));
@@ -48,7 +51,7 @@ $host_http  = "http://".$host;
 
 echo "[ + ] Host: ".$host." [$host_IP]".PHP_EOL;
 if(is_array($username)){
-echo "[ + ] Usernames loaded from file {$options['u']} [$username_count]".PHP_EOL;
+echo "[ + ] Usernames loaded [$username_count]".PHP_EOL;
 }else{
 echo "[ + ] Username [$username]".PHP_EOL;
 }
