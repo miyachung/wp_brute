@@ -251,6 +251,8 @@ foreach($chunk_posts as $post){
                 }
     
             curl_multi_remove_handle($multi,$read['handle']);
+        }else{
+            print "\t[REQUEST $counter / $postfield_count][UNEXPECTED\PROXY ERROR] HOST IS NOT RESPONDING TO REQUEST,CODE: {$read['result']}".PHP_EOL;
         }
     }
 
