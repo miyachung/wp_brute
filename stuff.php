@@ -226,7 +226,7 @@ foreach($chunk_posts as $post){
                         
                     }else{
                         print "\t[REQUEST $counter / $postfield_count][CODE:UNKNOWN] UNKNOWN ERROR!".PHP_EOL;
-                 
+                        print $content;
                     }
                 }else{
                     if(strstr($content,'theme-editor.php') && strstr($content,'logout')){
@@ -241,7 +241,7 @@ foreach($chunk_posts as $post){
                         print "\t[REQUEST $counter / $postfield_count][LOGIN ERROR] ".strip_tags(trim($login_error[1])).PHP_EOL;
                     }else{
                         print "\t[REQUEST $counter / $postfield_count] UNKNOWN ERROR!".PHP_EOL;
-                        file_put_contents("result.html",$content);exit; 
+                        print $content;
                     }
                 }
     
