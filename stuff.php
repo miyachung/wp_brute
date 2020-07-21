@@ -20,6 +20,10 @@
 */
 error_reporting(E_ALL ^ E_NOTICE);
 
+print "[INFO][~] Hello! Miyachung greets you :)".PHP_EOL;
+print "[INFO][~] Running in 1,3 seconds..".PHP_EOL;
+sleep(rand(1,3));
+
 $options = getopt('h:u:p:t:');
 
 if(!isset($options['h']) || !isset($options['u']) || !isset($options['p'])){
@@ -214,6 +218,7 @@ foreach($chunk_posts as $post){
 
                         print PHP_EOL.PHP_EOL;
                         print "\t[REQUEST $counter / $postfield_count]".PHP_EOL;
+                        print "\t[INFO] Host: ".$host_http.PHP_EOL;
                         print "\t[+++++++] LOGIN FOUND , CHECK BELOW!".PHP_EOL;
                         print "\t".$curl['content'][$key];
                         exit;
